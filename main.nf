@@ -11,7 +11,7 @@ if (params.help) {
     -------------------
 
     --reference         Path to reference files in 10X format.
-                        Accepts "mouse", "human", or FULL path 
+                        Allowed: "mouse", "human", or FULL path.
 
     --ncells            The number of cells to expect. Int.
 
@@ -20,9 +20,15 @@ if (params.help) {
 
     Optional arguments:
     -------------------
-    --out               Directory to publish results
-                        Default is directory where workflow is started
-    
+    --out               Directory to publish results.
+                        Default is directory where workflow is started.
+   
+    --mode              Run count for standard libraries, ATAC or VDJ. Default is standard.
+                        Allowed: atac, vjd
+
+    --chemistry         10X library chemistry version. Str. Default is auto.
+                        Allowed: threeprime, fiveprime, SC3Pv2, SC3Pv3, SC5P-PE, SC5P-R2, SC3Pv1
+
     ------------------------------------------------------
     """.stripIndent()
     exit 0
@@ -41,33 +47,33 @@ if ( params.reference == "mouse" ) {
 } else if ( params.reference == "human" ) {
     reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/CellRanger/refdata-gex-GRCh38-2020-A"
 } else {
-    reference = params.reference
+    reference = "${params.reference}"
 }
 
 // Optional arguments
-params.out = false
-if ( !params.out ) { 
-    out = "./" 
-} else {
-    out = "${params.out}"
-}
+params.out = "./"
+params.chemistry = 'auto'
+params.mode = 'standard'
 
 // Logging
 log.info("\n")
 log.info("Input directory (--fastq)       :${params.fastq}")
 log.info("Reference       (--reference)   :$reference")
 log.info("Expect cells    (--ncells)      :${params.ncells}")
+log.info("Chemistry       (--chemistry)   :${params.chemistry}")
+log.info("Run mode        (--mode)        :${params.mode}")
+log.info("Output dir      (--out)         :${params.out}")
 
 // Input channel: each directory is output of cellranger mkfastq
 Channel
-    .fromPath(params.fastq, type: 'dir')
+    .fromPath("${params.fastq}/*", type: 'dir')
     .map { tuple(it.getName(), it) }
     .set { fastqs }
 
 // Run CellRanger Count
 process cellranger_count {
   module 'cellranger/5.0.0'
-  publishDir path: "${out}/$id", mode: "copy", saveAs: { "${file(it).getName()}"}
+  publishDir path: "${params.out}/$id", mode: "copy", saveAs: { "${file(it).getName()}"}
 
   input:
     path(reference)
@@ -81,14 +87,37 @@ process cellranger_count {
     path("$id/_log")
 
   script:
+    if( params.mode == 'standard' ) {
     """
-    cellranger count --id=$id\
-                     --fastqs=$fastq\
-                     --transcriptome=$reference\
-                     --expect-cells=$ncells\
-                     --jobmode=local\
+    cellranger count --id=$id \
+                     --fastqs=$fastq \
+                     --transcriptome=${reference} \
+                     --expect-cells=${params.ncells} \
+                     --chemistry=${params.chemistry} \
+                     --jobmode=local \
                      --localmem=95
     """
+    } else if( params.mode == 'atac' ) {
+    """
+    cellranger-atac count --id=$id \
+                          --sample=$id \
+                          --fastqs=$fastq \
+                          --reference=${reference} \
+                          --jobmode=local \
+                          --localmem=95
+    """
+    } else if( params.mode == 'vdj' ) {
+    """
+    cellranger vdj --id=$id \
+                   --sample=$id \
+                   --fastqs=$fastq\
+                   --reference=${reference} \
+                   --jobmode=local \
+                   --localmem=95
+    """
+    } else { 
+        exit 1, "run mode not assigned correctly. Try --atac, --vdj, or omit" 
+    }
 }
 
 workflow {
