@@ -34,5 +34,6 @@ Currently configured to use 28 CPUs for each sample.
 
 ## Ouput
 `cellranger-nf` will publish the contents of `/outs/` as well as `_cmdline`, `_versions`, and `_log` to  
-`--out/[sample id]/`.  
+`--out/[sample id]/`. 
+   
 The thousands upon thousands of other logs and tmp files are NOT published.
