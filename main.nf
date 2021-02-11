@@ -34,9 +34,12 @@ if (params.help) {
     exit 0
 }
 
+// set default run mode
+params.mode = 'standard'
+
 // Required arguments
 params.ncells = false
-if ( !params.ncells) { exit 1, "--ncells is not defined" }
+if ( !params.ncells && params.mode == 'standard' ) { exit 1, "--ncells is not defined" }
 
 params.reference = false
 if ( !params.reference ) { exit 1, "--reference is not defined" }
@@ -53,7 +56,6 @@ if ( params.reference == "mouse" ) {
 // Optional arguments
 params.out = "./"
 params.chemistry = 'auto'
-params.mode = 'standard'
 
 // Logging
 log.info("\n")
@@ -78,7 +80,6 @@ process cellranger_count {
   input:
     path(reference)
     tuple val(id), path('fastq')
-    val(ncells)
 
   output:
     path("$id/outs/*")
@@ -121,5 +122,5 @@ process cellranger_count {
 }
 
 workflow {
-    cellranger_count(reference, fastqs, params.ncells)
+    cellranger_count(reference, fastqs)
 }

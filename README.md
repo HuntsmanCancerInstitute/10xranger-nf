@@ -16,7 +16,7 @@ nextflow run /cellranger-nf/main.nf --fastq [full path] --reference [mouse/human
 + `--reference`
     + Either keywords `mosue`, `human`, or full path to 10X formatted reference. 10X software will not accept relative paths.
 + `--ncells`
-    + How many cells to expect. Int. Applied to all samples. Ignored for ATAC and VJD mode.
+    + How many cells to expect. Int. Applied to all samples. Only required for standard mode (not ATAC or VDJ).
 
 ## Options
 + `--out`
