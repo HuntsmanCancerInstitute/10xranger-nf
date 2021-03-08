@@ -46,9 +46,25 @@ if ( !params.reference ) { exit 1, "--reference is not defined" }
 
 // convert reference keywords to paths in group space
 if ( params.reference == "mouse" ) {
-    reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/CellRanger/refdata-gex-mm10-2020-A"
+    if ( params.mode == "standard" ) {
+        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/CellRanger/refdata-gex-mm10-2020-A"
+    } else if ( params.mode == "atac" ) {
+        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/CellRanger/refdata-cellranger-atac-mm10-1.2.0"
+    } else if ( params.mode == "vdj" ) {
+        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/CellRanger/refdata-cellranger-vdj-GRCm38-alts-ensembl-5.0.0"
+    } else {
+        exit 1, "keywords for mode and species do not match"
+    }
 } else if ( params.reference == "human" ) {
-    reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/CellRanger/refdata-gex-GRCh38-2020-A"
+    if ( params.mode == "standard" ) {
+        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/CellRanger/refdata-gex-GRCh38-2020-A"
+    } else if ( params.mode == "atac" ) {
+        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/CellRanger/refdata-cellranger-atac-GRCh38-1.2.0"
+    } else if ( params.mode == "vdj" ) {
+        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/CellRanger/refdata-cellranger-vdj-GRCh38-alts-ensembl-5.0.0"
+    } else {
+        exit 1, "keywords for mode and species do not match"
+    }    
 } else {
     reference = "${params.reference}"
 }
@@ -74,7 +90,6 @@ Channel
 
 // Run CellRanger Count
 process cellranger_count {
-  module 'cellranger/5.0.0'
   publishDir path: "${params.out}/$id", mode: "copy", saveAs: { "${file(it).getName()}"}
 
   input:
@@ -90,7 +105,7 @@ process cellranger_count {
   script:
     if( params.mode == 'standard' ) {
     """
-    cellranger count --id=$id \
+    /uufs/chpc.utah.edu/common/HIPAA/hci-bioinformatics1/atlatl/app/10X/cellranger-6.0.0/cellranger count --id=$id \
                      --fastqs=$fastq \
                      --transcriptome=${reference} \
                      --expect-cells=${params.ncells} \
@@ -108,7 +123,7 @@ process cellranger_count {
     """
     } else if( params.mode == 'vdj' ) {
     """
-    cellranger vdj --id=$id \
+    /uufs/chpc.utah.edu/common/HIPAA/hci-bioinformatics1/atlatl/app/10X/cellranger-6.0.0/cellranger vdj --id=$id \
                    --fastqs=$fastq\
                    --reference=${reference} \
                    --jobmode=local \
