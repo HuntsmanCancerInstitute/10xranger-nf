@@ -47,21 +47,21 @@ if ( !params.reference ) { exit 1, "--reference is not defined" }
 // convert reference keywords to paths in group space
 if ( params.reference == "mouse" ) {
     if ( params.mode == "standard" ) {
-        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/CellRanger/refdata-gex-mm10-2020-A"
+        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/Mouse/GRCm38/10x_star/refdata-gex-mm10-2020-A"
     } else if ( params.mode == "atac" ) {
-        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/CellRanger/refdata-cellranger-atac-mm10-1.2.0"
+        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/Mouse/GRCm38/10x_star/refdata-cellranger-atac-mm10-1.2.0"
     } else if ( params.mode == "vdj" ) {
-        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/CellRanger/refdata-cellranger-vdj-GRCm38-alts-ensembl-5.0.0"
+        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/Mouse/GRCm38/10x_star/refdata-cellranger-vdj-GRCm38-alts-ensembl-5.0.0"
     } else {
         exit 1, "keywords for mode and species do not match"
     }
 } else if ( params.reference == "human" ) {
     if ( params.mode == "standard" ) {
-        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/CellRanger/refdata-gex-GRCh38-2020-A"
+        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/Human/GRCh38/10x_star/refdata-gex-GRCh38-2020-A"
     } else if ( params.mode == "atac" ) {
-        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/CellRanger/refdata-cellranger-atac-GRCh38-1.2.0"
+        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/Human/GRCh38/10x_star/refdata-cellranger-atac-GRCh38-1.2.0"
     } else if ( params.mode == "vdj" ) {
-        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/CellRanger/refdata-cellranger-vdj-GRCh38-alts-ensembl-5.0.0"
+        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/Human/GRCh38/10x_star/refdata-cellranger-vdj-GRCh38-alts-ensembl-5.0.0"
     } else {
         exit 1, "keywords for mode and species do not match"
     }    
