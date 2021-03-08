@@ -100,8 +100,7 @@ process cellranger_count {
     """
     } else if( params.mode == 'atac' ) {
     """
-    cellranger-atac count --id=$id \
-                          --sample=$id \
+    /uufs/chpc.utah.edu/common/HIPAA/hci-bioinformatics1/atlatl/app/10X/cellranger-atac-1.2.0/cellranger-atac count --id=$id \
                           --fastqs=$fastq \
                           --reference=${reference} \
                           --jobmode=local \
@@ -110,7 +109,6 @@ process cellranger_count {
     } else if( params.mode == 'vdj' ) {
     """
     cellranger vdj --id=$id \
-                   --sample=$id \
                    --fastqs=$fastq\
                    --reference=${reference} \
                    --jobmode=local \
