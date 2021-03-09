@@ -33,7 +33,10 @@ Currently set up for `-profile slurm` or `-profile local`
 Currently configured to use 28 CPUs for each sample.
 
 ## Ouput
-`cellranger-nf` will publish the contents of `/outs/` as well as `_cmdline`, `_versions`, and `_log` to  
-`--out/[sample id]/`. 
-   
+`cellranger-nf` will publish the contents of `/outs/` to `--out/[sample id]/`. 
+
 The thousands upon thousands of other logs and tmp files are NOT published.
+
+## Versions
+`cellranger-6.0.0` released 2 March 2021  
+`cellranger-atac-1.2.0` released 21 November 2019
