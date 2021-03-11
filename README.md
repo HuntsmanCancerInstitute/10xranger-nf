@@ -44,5 +44,5 @@ The thousands upon thousands of other logs and tmp files are NOT published.
 ## Versions
 `cellranger-nf` runs in a Docker container with:
 `cellranger-6.0.0` released 2 March 2021  
-`cellranger-atac-1.2.0` released 21 November 2019
+`cellranger-atac-1.2.0` released 21 November 2019  
 10X provided references are large and are NOT in the Docker container.
