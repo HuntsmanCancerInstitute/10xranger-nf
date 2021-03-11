@@ -105,28 +105,25 @@ process cellranger_count {
   script:
     if( params.mode == 'standard' ) {
     """
-    /uufs/chpc.utah.edu/common/HIPAA/hci-bioinformatics1/atlatl/app/10X/cellranger-6.0.0/cellranger count --id=$id \
+    cellranger count --id=$id \
                      --fastqs=$fastq \
                      --transcriptome=${reference} \
                      --expect-cells=${params.ncells} \
                      --chemistry=${params.chemistry} \
-                     --jobmode=local \
                      --localmem=95
     """
     } else if( params.mode == 'atac' ) {
     """
-    /uufs/chpc.utah.edu/common/HIPAA/hci-bioinformatics1/atlatl/app/10X/cellranger-atac-1.2.0/cellranger-atac count --id=$id \
+    cellranger-atac count --id=$id \
                           --fastqs=$fastq \
                           --reference=${reference} \
-                          --jobmode=local \
                           --localmem=95
     """
     } else if( params.mode == 'vdj' ) {
     """
-    /uufs/chpc.utah.edu/common/HIPAA/hci-bioinformatics1/atlatl/app/10X/cellranger-6.0.0/cellranger vdj --id=$id \
+    cellranger vdj --id=$id \
                    --fastqs=$fastq\
                    --reference=${reference} \
-                   --jobmode=local \
                    --localmem=95
     """
     } else { 
