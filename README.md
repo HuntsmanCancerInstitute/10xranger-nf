@@ -7,8 +7,11 @@ Point `cellranger-nf` at a directory containing the output of 10X Cellranger `mk
 Subdirectories will be named with a unique identifier, which will be used as the sample ID.  
 
 ```
-nextflow run /cellranger-nf/main.nf --fastq [full path] --reference [mouse/human/full path] --ncells [int]
+nextflow run cellranger-nf --fastq [full path] --reference [mouse/human/full path] --ncells [int]
 ```
+
+By default `cellranger-nf` will run in its Docker container via Singularity. See Dockerfile for full details.  
+Singularity will pull the container automatically on execution.  
 
 ## Required
 + `--fastq`
@@ -28,15 +31,18 @@ nextflow run /cellranger-nf/main.nf --fastq [full path] --reference [mouse/human
     + Allowed: threeprime, fiveprime, SC3Pv2, SC3Pv3, SC5P-PE, SC5P-R2, SC3Pv1
 
 ## Execution
-Currently set up for `-profile slurm` or `-profile local`  
+Currently set up for `-profile slurm` or `-profile local` via Singularity.   
 10X software requires 120 GB of memory for each sample.  
-Currently configured to use 28 CPUs for each sample.
+Currently configured to use 28 CPUs for each sample.  
 
 ## Ouput
 `cellranger-nf` will publish the contents of `/outs/` to `--out/[sample id]/`. 
+Nextflow timeline, report, and trace are published to `${params.out}/logs`
 
 The thousands upon thousands of other logs and tmp files are NOT published.
 
 ## Versions
+`cellranger-nf` runs in a Docker container with:
 `cellranger-6.0.0` released 2 March 2021  
 `cellranger-atac-1.2.0` released 21 November 2019
+10X provided references are large and are NOT in the Docker container.
