@@ -110,6 +110,7 @@ process cellranger_count {
                      --transcriptome=${reference} \
                      --expect-cells=${params.ncells} \
                      --chemistry=${params.chemistry} \
+                     --localcores=28 \
                      --localmem=95
     """
     } else if( params.mode == 'atac' ) {
@@ -117,6 +118,7 @@ process cellranger_count {
     cellranger-atac count --id=$id \
                           --fastqs=$fastq \
                           --reference=${reference} \
+                          --localcores=28 \
                           --localmem=95
     """
     } else if( params.mode == 'vdj' ) {
@@ -124,6 +126,7 @@ process cellranger_count {
     cellranger vdj --id=$id \
                    --fastqs=$fastq\
                    --reference=${reference} \
+                   --localcores=28 \
                    --localmem=95
     """
     } else { 
