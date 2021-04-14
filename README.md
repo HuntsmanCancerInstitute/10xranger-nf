@@ -31,7 +31,7 @@ Singularity will pull the container automatically on execution.
     + Allowed: threeprime, fiveprime, SC3Pv2, SC3Pv3, SC5P-PE, SC5P-R2, SC3Pv1
 
 ## Execution
-Currently set up for `-profile slurm` or `-profile local` via Singularity.   
+Standard profile submits jobs to `slurm` scheduler and each runs inside a Singularity.   
 10X software requires 120 GB of memory for each sample.  
 Currently configured to use 28 CPUs for each sample.  
 
