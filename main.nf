@@ -90,6 +90,7 @@ Channel
 
 // Run CellRanger Count
 process cellranger_count {
+  module 'singularity/3.6.4'
   publishDir path: "${params.out}/$id", mode: "copy", saveAs: { "${file(it).getName()}"}
 
   input:
