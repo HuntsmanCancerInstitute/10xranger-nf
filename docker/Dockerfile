@@ -9,7 +9,8 @@ RUN yum install -y \
     unzip
 
 COPY cellranger-6.0.0.tar.gz /tmp
-COPY cellranger-atac-1.2.0.tar.gz /tmp
+COPY cellranger-atac-2.0.0.tar.gz /tmp
+COPY cellranger-arc-2.0.0.tar.gz /tmp
 
 # Install cellranger
 RUN cd /tmp/ && \
@@ -20,11 +21,19 @@ RUN cd /tmp/ && \
 
 # Install cellranger-atac
 RUN cd /tmp/ && \
-    mv cellranger-atac-1.2.0.tar.gz /opt/ && \
+    mv cellranger-atac-2.0.0.tar.gz /opt/ && \
     cd /opt/ && \
-    tar -xzvf cellranger-atac-1.2.0.tar.gz && \
-    rm -f cellranger-1.2.0.tar.gz
+    tar -xzvf cellranger-atac-2.0.0.tar.gz && \
+    rm -f cellranger-atac-2.0.0.tar.gz
+
+# Install cellranger-arc
+RUN cd /tmp/ && \
+    mv cellranger-arc-2.0.0.tar.gz /opt/ && \
+    cd /opt/ && \
+    tar -xzvf cellranger-arc-2.0.0.tar.gz && \
+    rm -f cellranger-arc-2.0.0.tar.gz
 
 # path
 ENV PATH /opt/cellranger-atac-1.2.0:$PATH
 ENV PATH /opt/cellranger-6.0.0:$PATH
+ENV PATH /opt/cellranger-arc:$PATH
