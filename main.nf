@@ -51,7 +51,7 @@ if ( params.reference == "mouse" ) {
     if ( params.mode == "standard" ) {
         reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/Mouse/GRCm38/10x_star/refdata-gex-mm10-2020-A"
     } else if ( params.mode == "atac" ) {
-        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/Mouse/GRCm38/10x_atac/refdata-cellranger-atac-mm10-1.2.0"
+        reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/Mouse/GRCm38/10x_star/refdata-cellranger-atac-mm10-1.2.0"
     } else if ( params.mode == "vdj" ) {
         reference = "/uufs/chpc.utah.edu/common/PE/hci-bioinformatics1/atlatl/data/Mouse/GRCm38/10x_star/refdata-cellranger-vdj-GRCm38-alts-ensembl-5.0.0"
     } else {
@@ -123,7 +123,6 @@ process cellranger_count {
                           --reference=$reference \
                           --localcores=28 \
                           --localmem=95
-    """
     } else if( params.mode == 'vdj' ) {
     """
     cellranger vdj --id=$id \
