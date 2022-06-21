@@ -15,8 +15,6 @@ if (params.help) {
     --reference         Path to reference files in 10X format.
                         Allowed: "mouse", "human", or FULL path.
 
-    --ncells            The number of cells to expect. Int.
-
     --fastq             Directory that contains the fastqs. FULL path.
 
 
@@ -40,8 +38,6 @@ if (params.help) {
 params.mode = 'standard'
 
 // Required arguments
-params.ncells = false
-if ( !params.ncells && params.mode == 'standard' ) { exit 1, "--ncells is not defined" }
 
 params.reference = false
 if ( !params.reference ) { exit 1, "--reference is not defined" }
@@ -79,7 +75,6 @@ params.chemistry = 'auto'
 log.info("\n")
 log.info("Input directory (--fastq)       :${params.fastq}")
 log.info("Reference       (--reference)   :$reference")
-log.info("Expect cells    (--ncells)      :${params.ncells}")
 log.info("Chemistry       (--chemistry)   :${params.chemistry}")
 log.info("Run mode        (--mode)        :${params.mode}")
 log.info("Output dir      (--out)         :${params.out}")
@@ -92,8 +87,9 @@ Channel
 
 // Run CellRanger Count
 process cellranger_count {
-  module 'singularity/3.6.4'
+  module 'singularity'
   publishDir path: "${params.out}/$id", mode: "copy", saveAs: { "${file(it).getName()}"}
+  //publishDir path: "${params.out}/$id", mode: "copy"
 
   input:
     path(reference)
@@ -106,36 +102,35 @@ process cellranger_count {
     path("$id/_log")
 
   script:
-    if( params.mode == 'standard' ) {
-    """
-    cellranger count --id=$id \
+	if( params.mode == 'standard' ) {
+	"""
+	cellranger count --id=$id \
                      --fastqs=$fastq \
                      --transcriptome=${reference} \
-                     --expect-cells=${params.ncells} \
                      --chemistry=${params.chemistry} \
                      --localcores=28 \
                      --localmem=95
-    """
-    } else if( params.mode == 'atac' ) {
-    """
-    cellranger-atac count --id=$id \
+	"""
+	} else if( params.mode == 'atac' ) {
+	"""	
+	cellranger-atac count --id=$id \
                           --fastqs=$fastq \
                           --reference=$reference \
                           --localcores=28 \
                           --localmem=95
-    } else if( params.mode == 'vdj' ) {
-    """
-    cellranger vdj --id=$id \
+	"""
+	} else if( params.mode == 'vdj' ) {
+	"""
+	cellranger vdj --id=$id \
                    --fastqs=$fastq\
                    --reference=${reference} \
                    --localcores=28 \
                    --localmem=95
-    """
-    } else { 
-        exit 1, "run mode not assigned correctly. Try --atac, --vdj, or omit" 
-    }
+	"""
+	} else {
+		exit 1, "run mode not assigned correctly. Try --atac, --vdj, or omit"
+	}
 }
-
 workflow {
     cellranger_count(reference, fastqs)
 }
