@@ -47,4 +47,4 @@ The thousands upon thousands of other logs and tmp files are NOT published.
 
 `nextflow` version 20.10.0
 
-+ 10X provided references are large and are NOT in the Docker container.
+ 10X provided references are large and are NOT in the Docker container.
