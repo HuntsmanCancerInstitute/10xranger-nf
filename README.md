@@ -44,4 +44,7 @@ The thousands upon thousands of other logs and tmp files are NOT published.
 `cellranger-atac-2.1.0` released 4 Apr 2022  
 `cellranger-arc-2.0.1` release 3 Feb 2022  
 `spaceranger-1.3.1` release 1 Nov 2021
-`10X provided references` are large and are NOT in the Docker container.
+
+`nextflow` version 20.10.0
+
++ 10X provided references are large and are NOT in the Docker container.
